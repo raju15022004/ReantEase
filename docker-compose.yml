@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: rentease
+      MYSQL_USER: ${SPRING_DATASOURCE_USERNAME:-rentease}
+      MYSQL_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-local-dev-password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-local-root-password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - rentease_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  rentease_mysql:

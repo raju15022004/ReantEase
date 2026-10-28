@@ -1,0 +1,7 @@
+import { api } from './api'
+
+export const authService = {
+  login: (credentials) => api('/auth/login', { method: 'POST', body: JSON.stringify(credentials) }),
+  register: (details) => api('/auth/register', { method: 'POST', body: JSON.stringify(details) }),
+  me: () => api('/auth/me'),
+}
